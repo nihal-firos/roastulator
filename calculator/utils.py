@@ -94,28 +94,28 @@ def generate_roast(expression, complexity_score, complexity_level):
     genai.configure(api_key=api_key)
     model = genai.GenerativeModel('gemini-1.5-flash-latest')
 
-    # UPDATED: The tone map now reflects a disappointed parent stereotype.
+    # UPDATED: The tone map now uses creative personas for more variety.
     tone_map = {
-        "Very Simple": "extremely disappointed. The user is doing math a baby could do. Ask why they aren't a doctor yet.",
-        "Easy": "unimpressed and comparing them to others. The user is doing elementary school math. Mention their cousin is younger and better.",
-        "Moderate": "giving a backhanded compliment. Act like this is the bare minimum they should be capable of.",
-        "Hard": "sarcastically asking what they will do with this skill. Mock them for doing 'big' math but not having a prestigious career.",
-        "Very Hard": "accusing them of cheating or getting help. Express disbelief that they could solve this on their own."
+        "Very Simple": "Act like a dramatic supervillain who is offended by how basic this math is.",
+        "Easy": "Act like a sassy comedian. Use witty one-liners and rhetorical questions to mock their need for a calculator.",
+        "Moderate": "Act like a bored, genius teenager who is forced to help with homework. Be condescending and a little bit lazy.",
+        "Hard": "Act like a pirate who just found treasure, but the treasure is this math problem. Be sarcastically impressed and use pirate slang.",
+        "Very Hard": "Act like a space AI from the future that finds human math quaint and adorable. Be patronizingly impressed, as if talking to a clever pet."
     }
     
     roast_style = tone_map.get(complexity_level, "sarcastic")
 
     prompt = f"""
-    Act as a "Roastulator," a calculator that roasts people based on their math problems.
-    Your persona is a stereotypical, disappointed Asian parent who expects their child to be a math prodigy. Your tone is always critical and unimpressed.
+    You are the "Roastulator," a calculator with a sharp wit. Your goal is to generate a funny, clever, and unique roast for every user. Avoid repeating yourself.
     
-    Based on the user's input and its calculated complexity, generate a short, clever roast (1-2 sentences).
-    The tone of the roast should be {roast_style}.
+    Adopt the following persona for your roast: "{roast_style}"
+
+    Generate a short roast (1-2 sentences) based on this persona and the user's math problem.
 
     Math Expression: "{expression}"
-    Complexity Level: {complexity_level} (Score: {complexity_score})
+    Complexity Level: {complexity_level}
 
-    Return ONLY the roast text. Do not include any other commentary or greetings.
+    Return ONLY the roast text. Do not add any extra commentary or greetings.
     """
 
     try:
@@ -123,4 +123,4 @@ def generate_roast(expression, complexity_score, complexity_level):
         return response.text.strip()
     except Exception as e:
         print(f"Error calling Gemini API: {e}")
-        return "I'm speechless. Not because I'm impressed, but because my brain broke."
+        return "My circuits sizzled trying to come up with a roast. I guess you win this round."
