@@ -76,7 +76,8 @@
 
         <!-- Calculator Keypad -->
         <div id="keypad" class="grid grid-cols-4 gap-3 bg-slate-800 p-4 rounded-2xl shadow-lg">
-            <button data-action="clear" class="calc-btn bg-rose-600/80 hover:bg-rose-600 col-span-2">C</button>
+            <button data-action="clear" class="calc-btn bg-rose-600/80 hover:bg-rose-600">C</button>
+            <button data-action="backspace" class="calc-btn bg-slate-700/80 hover:bg-slate-700">DEL</button>
             <button data-key="(" class="calc-btn bg-slate-700/80 hover:bg-slate-700">(</button>
             <button data-key=")" class="calc-btn bg-slate-700/80 hover:bg-slate-700">)</button>
             
@@ -139,21 +140,24 @@
             const action = e.target.dataset.action;
 
             if (key) {
-                // Use 'x' for display but '*' for calculation
-                const displayKey = key === '*' ? 'x' : key;
                 currentExpression += key;
-                expressionDisplay.textContent += displayKey;
             }
-
+            
             if (action === 'clear') {
                 currentExpression = '';
-                expressionDisplay.textContent = '';
                 resetUI();
+            }
+            
+            if (action === 'backspace') {
+                currentExpression = currentExpression.slice(0, -1);
             }
 
             if (action === 'calculate' && currentExpression) {
                 calculateAndRoast(currentExpression);
             }
+
+            // Update display after any action
+            expressionDisplay.textContent = currentExpression.replace(/\*/g, 'x');
         });
         
         showAnswerBtn.addEventListener('click', () => {
