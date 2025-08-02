@@ -28,14 +28,12 @@ For Software:
 - Tools used: Tailwind CSS
 
 # Screenshots (Add at least 3)
-![Screenshot1](Add screenshot 1 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot1]<img width="1366" height="768" alt="ss1" src="https://github.com/user-attachments/assets/07db271f-4be4-4cda-bf04-2b08a138fec3" />
 
-![Screenshot2](Add screenshot 2 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot2]<img width="1366" height="768" alt="ss2" src="https://github.com/user-attachments/assets/1a046f94-d3b9-43b3-8f76-3b1f57a9692b" />
 
-![Screenshot3](Add screenshot 3 here with proper name)
-*Add caption explaining what this shows*
+![Screenshot3]<img width="1366" height="768" alt="ss3" src="https://github.com/user-attachments/assets/7fb58488-980c-4240-bb26-2533fea1d8bf" />
+
 
 ### Project Demo
 # Video
@@ -43,12 +41,15 @@ For Software:
 *Explain what the video demonstrates*
 
 Installation
+
 # Clone the repository
 git clone [your-repo-link]
 cd [your-repo-name]
 
 # Create a virtual environment and activate it
+
 python -m venv venv
+
 source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 # Install dependencies
