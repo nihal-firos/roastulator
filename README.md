@@ -25,9 +25,6 @@ For Software:
 - Libraries used: google-generativeai, python-dotenv, gunicorn, whitenoise
 - Tools used: Tailwind CSS
 
-Implementation
-For Software:
-
 # Screenshots (Add at least 3)
 ![Screenshot1](Add screenshot 1 here with proper name)
 *Add caption explaining what this shows*
@@ -55,23 +52,24 @@ source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 # Install dependencies
 pip install -r requirements.txt
 
-Run
-# Create a .env file and add your GOOGLE_API_KEY and a Django SECRET_KEY
-# GOOGLE_API_KEY=your_api_key_here
-# SECRET_KEY=your_secret_key_here
+# Run
+ Create a .env file and add your GOOGLE_API_KEY and a Django SECRET_KEY
+ GOOGLE_API_KEY=your_api_key_here
+ SECRET_KEY=your_secret_key_here
 
-# Run the development server
+### Run the development server
 python manage.py runserver
 
-Project Demo
+# Project Demo
 https://roastulator.onrender.com/
 
-Team Contributions
+# Team Contributions
 Nihal K: Backend development (Django, Gemini API integration), project setup, and deployment.)
 
 Anurag M: Frontend development (HTML, Tailwind CSS, JavaScript), UI/UX design, and creating the calculator interface.)
 
 ---
+
 Made with ❤️ at TinkerHub Useless Projects 
 
 ![Static Badge](https://img.shields.io/badge/TinkerHub-24?color=%23000000&link=https%3A%2F%2Fwww.tinkerhub.org%2F)
