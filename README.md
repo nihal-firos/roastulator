@@ -1,3 +1,5 @@
+<img width="3188" height="1202" alt="frame (3)" src="https://github.com/user-attachments/assets/517ad8e9-ad22-457d-9538-a9e62d137cd7" />
+
 # Roastulator 🎯
 
 ## Basic Details
@@ -53,9 +55,9 @@ source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 pip install -r requirements.txt
 
 # Run
- Create a .env file and add your GOOGLE_API_KEY and a Django SECRET_KEY
- GOOGLE_API_KEY=your_api_key_here
- SECRET_KEY=your_secret_key_here
+Create a .env file and add your GOOGLE_API_KEY and a Django SECRET_KEY
+GOOGLE_API_KEY=your_api_key_here
+SECRET_KEY=your_secret_key_here
 
 ### Run the development server
 python manage.py runserver
