@@ -27,12 +27,12 @@ For Software:
 - Libraries used: google-generativeai, python-dotenv, gunicorn, whitenoise
 - Tools used: Tailwind CSS
 
-# Screenshots (Add at least 3)
-![Screenshot1]<img width="1366" height="768" alt="ss1" src="https://github.com/user-attachments/assets/07db271f-4be4-4cda-bf04-2b08a138fec3" />
+# Screenshots
+<img width="1366" height="768" alt="ss1" src="https://github.com/user-attachments/assets/07db271f-4be4-4cda-bf04-2b08a138fec3" />
 
-![Screenshot2]<img width="1366" height="768" alt="ss2" src="https://github.com/user-attachments/assets/1a046f94-d3b9-43b3-8f76-3b1f57a9692b" />
+<img width="1366" height="768" alt="ss2" src="https://github.com/user-attachments/assets/1a046f94-d3b9-43b3-8f76-3b1f57a9692b" />
 
-![Screenshot3]<img width="1366" height="768" alt="ss3" src="https://github.com/user-attachments/assets/7fb58488-980c-4240-bb26-2533fea1d8bf" />
+<img width="1366" height="768" alt="ss3" src="https://github.com/user-attachments/assets/7fb58488-980c-4240-bb26-2533fea1d8bf" />
 
 
 ### Project Demo
