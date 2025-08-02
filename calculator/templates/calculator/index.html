@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roastulator - The AI Roasting Calculator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #0f172a; /* bg-slate-900 */
+        }
+        .loader {
+            border-top-color: #d946ef; /* fuchsia-500 */
+            -webkit-animation: spin 1s linear infinite;
+            animation: spin 1s linear infinite;
+        }
+        @-webkit-keyframes spin {
+            0% { -webkit-transform: rotate(0deg); }
+            100% { -webkit-transform: rotate(360deg); }
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .calc-btn {
+            transition: all 0.2s ease-in-out;
+        }
+        .calc-btn:active {
+            transform: scale(0.95);
+        }
+    </style>
+</head>
+<body class="text-white flex items-center justify-center min-h-screen p-4">
+
+    <div class="w-full max-w-sm mx-auto">
+        
+        <header class="text-center mb-4">
+            <h1 class="text-4xl font-bold text-fuchsia-400">Roastulator</h1>
+            <p class="text-slate-400 mt-1 text-sm">Your math, my amusement.</p>
+        </header>
+
+        <!-- Results & Display Section -->
+        <div id="main-display" class="bg-slate-800 rounded-2xl p-6 mb-4 shadow-lg min-h-[220px] flex flex-col justify-between">
+            <!-- Expression Display -->
+            <div id="expression-display" class="text-right text-3xl font-mono break-all text-slate-400 h-12 flex items-end justify-end"></div>
+            
+            <!-- Roast & Result Area -->
+            <div id="roast-area" class="text-center">
+                <!-- Loading Spinner -->
+                <div id="loader" class="loader ease-linear rounded-full border-4 border-t-4 border-slate-600 h-12 w-12 mx-auto my-4 hidden"></div>
+                
+                <!-- Roast Message -->
+                <p id="roast-message" class="text-lg text-fuchsia-300 italic hidden"></p>
+
+                <!-- Result Container (initially hidden) -->
+                <div id="result-container" class="hidden mt-4">
+                    <p id="calculation-result" class="text-5xl font-bold text-white"></p>
+                </div>
+                
+                 <!-- Error Display -->
+                <div id="error-display" class="hidden bg-red-900/50 border border-red-700 text-red-300 px-4 py-3 rounded-lg">
+                    <strong class="font-bold">Oops!</strong>
+                    <span id="error-message" class="block sm:inline"></span>
+                </div>
+            </div>
+            
+            <!-- Action Button Area -->
+            <div id="action-button-area" class="mt-4">
+                 <button id="show-answer-btn" class="w-full text-white bg-fuchsia-600 hover:bg-fuchsia-500 font-semibold rounded-lg text-md py-2 text-center hidden">
+                    Show Answer
+                </button>
+            </div>
+        </div>
+
+        <!-- Calculator Keypad -->
+        <div id="keypad" class="grid grid-cols-4 gap-3 bg-slate-800 p-4 rounded-2xl shadow-lg">
+            <button data-action="clear" class="calc-btn bg-rose-600/80 hover:bg-rose-600 col-span-2">C</button>
+            <button data-key="(" class="calc-btn bg-slate-700/80 hover:bg-slate-700">(</button>
+            <button data-key=")" class="calc-btn bg-slate-700/80 hover:bg-slate-700">)</button>
+            
+            <button data-key="7" class="calc-btn bg-slate-600/80 hover:bg-slate-600">7</button>
+            <button data-key="8" class="calc-btn bg-slate-600/80 hover:bg-slate-600">8</button>
+            <button data-key="9" class="calc-btn bg-slate-600/80 hover:bg-slate-600">9</button>
+            <button data-key="/" class="calc-btn operator-btn bg-fuchsia-600/80 hover:bg-fuchsia-600">/</button>
+
+            <button data-key="4" class="calc-btn bg-slate-600/80 hover:bg-slate-600">4</button>
+            <button data-key="5" class="calc-btn bg-slate-600/80 hover:bg-slate-600">5</button>
+            <button data-key="6" class="calc-btn bg-slate-600/80 hover:bg-slate-600">6</button>
+            <button data-key="*" class="calc-btn operator-btn bg-fuchsia-600/80 hover:bg-fuchsia-600">x</button>
+
+            <button data-key="1" class="calc-btn bg-slate-600/80 hover:bg-slate-600">1</button>
+            <button data-key="2" class="calc-btn bg-slate-600/80 hover:bg-slate-600">2</button>
+            <button data-key="3" class="calc-btn bg-slate-600/80 hover:bg-slate-600">3</button>
+            <button data-key="-" class="calc-btn operator-btn bg-fuchsia-600/80 hover:bg-fuchsia-600">-</button>
+
+            <button data-key="0" class="calc-btn bg-slate-600/80 hover:bg-slate-600 col-span-2">0</button>
+            <button data-key="." class="calc-btn bg-slate-600/80 hover:bg-slate-600">.</button>
+            <button data-key="+" class="calc-btn operator-btn bg-fuchsia-600/80 hover:bg-fuchsia-600">+</button>
+            
+            <button data-action="calculate" class="calc-btn bg-emerald-600/80 hover:bg-emerald-600 col-span-4 text-2xl">=</button>
+        </div>
+    </div>
+
+    <script>
+        // DOM Elements
+        const expressionDisplay = document.getElementById('expression-display');
+        const keypad = document.getElementById('keypad');
+        const loader = document.getElementById('loader');
+        const roastMessage = document.getElementById('roast-message');
+        const showAnswerBtn = document.getElementById('show-answer-btn');
+        const resultContainer = document.getElementById('result-container');
+        const calculationResult = document.getElementById('calculation-result');
+        const errorDisplay = document.getElementById('error-display');
+        const errorMessage = document.getElementById('error-message');
+
+        let currentExpression = '';
+        let lastResult = null;
+
+        // Add base styles to all calculator buttons
+        document.querySelectorAll('.calc-btn').forEach(btn => {
+            btn.classList.add('text-white', 'font-bold', 'py-3', 'rounded-xl', 'text-xl');
+        });
+
+        const resetUI = () => {
+            roastMessage.classList.add('hidden');
+            showAnswerBtn.classList.add('hidden');
+            resultContainer.classList.add('hidden');
+            errorDisplay.classList.add('hidden');
+            loader.classList.add('hidden');
+            keypad.querySelectorAll('button').forEach(b => b.disabled = false);
+        };
+
+        keypad.addEventListener('click', (e) => {
+            if (!e.target.matches('button')) return;
+
+            const key = e.target.dataset.key;
+            const action = e.target.dataset.action;
+
+            if (key) {
+                // Use 'x' for display but '*' for calculation
+                const displayKey = key === '*' ? 'x' : key;
+                currentExpression += key;
+                expressionDisplay.textContent += displayKey;
+            }
+
+            if (action === 'clear') {
+                currentExpression = '';
+                expressionDisplay.textContent = '';
+                resetUI();
+            }
+
+            if (action === 'calculate' && currentExpression) {
+                calculateAndRoast(currentExpression);
+            }
+        });
+        
+        showAnswerBtn.addEventListener('click', () => {
+             if (lastResult !== null) {
+                resultContainer.classList.remove('hidden');
+                calculationResult.textContent = lastResult;
+                showAnswerBtn.classList.add('hidden');
+             }
+        });
+
+        async function calculateAndRoast(expression) {
+            resetUI();
+            loader.classList.remove('hidden');
+            keypad.querySelectorAll('button').forEach(b => b.disabled = true);
+
+            try {
+                const response = await fetch('/api/roast/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({ expression: expression })
+                });
+
+                const data = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(data.roast || data.error || "An unknown error occurred.");
+                }
+                
+                lastResult = data.result;
+                roastMessage.textContent = `"${data.roast}"`;
+                roastMessage.classList.remove('hidden');
+                showAnswerBtn.classList.remove('hidden');
+
+            } catch (error) {
+                errorMessage.textContent = error.message;
+                errorDisplay.classList.remove('hidden');
+            } finally {
+                loader.classList.add('hidden');
+                keypad.querySelectorAll('button').forEach(b => b.disabled = false);
+                currentExpression = ''; // Reset for next calculation
+            }
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>
